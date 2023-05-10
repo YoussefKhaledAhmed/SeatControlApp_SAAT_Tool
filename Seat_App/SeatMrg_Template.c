@@ -4,7 +4,7 @@
  * \brief Rte Component Template for AUTOSAR SWC: SeatMrg
  *
  * \author Sprints AUTOSAR Authoring Tool (SAAT) v1.0.2
- * Generated on 5/10/2023 08:42 AM
+ * Generated on 5/8/2023 08:54 AM
  *
  * For any inquiries: hassan.m.farahat@gmail.com
  *
@@ -26,14 +26,18 @@ void SeatManager_SetHeight (void)
 {
 	Std_ReturnType status;
 	MultiStateBtn HeightBtnState;
-	StepMotorStepType step;
 
 	/* Data Receive Points */
 	status = Rte_Read_rpSeatCtrlBtns_HeightBtnState(&HeightBtnState);
 	
-	/* Server Call Points */
-	status = Rte_Call_rpHeightMotor_Move(step);
-	
+	/* Software Logic */
+	if(HeightBtnState == MULTI_STATE_BIN_MINUS){
+		Rte_Call_rpHeightMotor_Move(MOTOR_STEP_MINUS);
+	} else if(HeightBtnState == MULTI_STATE_BIN_PLUS){
+		Rte_Call_rpHeightMotor_Move(MOTOR_STEP_PLUS);
+	} else{
+		/* Do nothing.... */
+	}
 }
 
 
@@ -50,13 +54,18 @@ void SeatManager_SetIncline (void)
 {
 	Std_ReturnType status;
 	MultiStateBtn InclineBtnState;
-	StepMotorStepType step;
 
 	/* Data Receive Points */
 	status = Rte_Read_rpSeatCtrlBtns_InclineBtnState(&InclineBtnState);
 	
-	/* Server Call Points */
-	status = Rte_Call_rpSlideMotor_Move(step);
+	/* Software Logic */
+	if(InclineBtnState == MULTI_STATE_BIN_MINUS){
+		Rte_Call_rpInclineMotor_Move(MOTOR_STEP_MINUS);
+	} else if(InclineBtnState == MULTI_STATE_BIN_PLUS){
+		Rte_Call_rpInclineMotor_Move(MOTOR_STEP_PLUS);
+	} else{
+		/* Do nothing.... */
+	}
 	
 }
 
@@ -74,13 +83,18 @@ void SeatManager_SetSlide (void)
 {
 	Std_ReturnType status;
 	MultiStateBtn SlideBtnState;
-	StepMotorStepType step;
 
 	/* Data Receive Points */
 	status = Rte_Read_rpSeatCtrlBtns_SlideBtnState(&SlideBtnState);
 	
-	/* Server Call Points */
-	status = Rte_Call_rpInclineMotor_Move(step);
+	/* Software Logic */
+	if(SlideBtnState == MULTI_STATE_BIN_MINUS){
+		Rte_Call_rpSlideMotor_Move(MOTOR_STEP_MINUS);
+	} else if(SlideBtnState == MULTI_STATE_BIN_PLUS){
+		Rte_Call_rpSlideMotor_Move(MOTOR_STEP_PLUS);
+	} else{
+		/* Do nothing.... */
+	}
 	
 }
 

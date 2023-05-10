@@ -25,6 +25,7 @@
 void SlideMotor_Move (StepMotorStepType step)
 {
 	Std_ReturnType status;
+	status = Dio_WriteChannel(Dio_ChannelType ChannelId , Dio_LevelType Level);
 
 }
 
