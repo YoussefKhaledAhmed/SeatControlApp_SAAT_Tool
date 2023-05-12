@@ -4,7 +4,7 @@
  * \brief Rte Component Template for AUTOSAR SWC: InclineMotor
  *
  * \author Sprints AUTOSAR Authoring Tool (SAAT) v1.0.2
- * Generated on 5/10/2023 08:42 AM
+ * Generated on 5/12/2023 04:20 PM
  *
  * For any inquiries: hassan.m.farahat@gmail.com
  *
@@ -25,7 +25,15 @@
 void InclineMotor_Move (StepMotorStepType step)
 {
 	Std_ReturnType status;
-	status = Dio_WriteChannel(Dio_ChannelType ChannelId , Dio_LevelType Level);
 
+	/* Server Call Points */
+	if(step == MOTOR_STEP_PLUS){
+		status = Rte_Call_rpIoSetIncline_IoSetForward();
+	} else if(step == MOTOR_STEP_MINUS){
+		status = Rte_Call_rpIoSetIncline_IoSetReverse();
+	} else{
+		/* Do nothing... */
+	}
+	
 }
 

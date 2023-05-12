@@ -4,7 +4,7 @@
  * \brief Rte Component Template for AUTOSAR SWC: InclineSensor
  *
  * \author Sprints AUTOSAR Authoring Tool (SAAT) v1.0.2
- * Generated on 5/10/2023 01:28 PM
+ * Generated on 5/12/2023 04:20 PM
  *
  * For any inquiries: hassan.m.farahat@gmail.com
  *
@@ -25,7 +25,23 @@
 void InclineSensor_GetPosition (SensorPositionType* position)
 {
 	Std_ReturnType status;
-	status = Adc_ReadGroup(Adc_GroupType Group , Adc_ValueGroupType* DataBufferPtr);
+	IoPositionSensorReadingType position;
 
+	/* Server Call Points */
+	status = Rte_Call_rpIoGetIncline_IoGet(&position);
+	
+	/* SoftWare Logic */
+	if(position == 0){
+		position = SENSOR_POSITION_STEP_0;
+	} else if((position > 0) && (position <= 64)){
+		position = SENSOR_POSITION_STEP_1;
+	} else if((position > 64) && (position <= 192)){
+		position = SENSOR_POSITION_STEP_2;
+	} else if((position > 192) && (position <= 255)){
+		position = SENSOR_POSITION_STEP_3;
+	} else{
+		/* Do nothing... */
+	}
+	
 }
 
