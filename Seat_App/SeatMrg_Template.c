@@ -112,11 +112,16 @@ void SeatManager_AutoIncline (void)
 	StepMotorStepType step;
 	SensorPositionType position;
 	SensorWeightType weight;
+	boolean adjustMotor;
 
 	/* Server Call Points */
-	status = Rte_Call_rpInclineMotor_Move(step);
 	status = Rte_Call_rpInclineSensor_GetPosition(&position);
 	status = Rte_Call_rpWeightSensor_GetWeight(&weight);
+	
+	adjustMotor = isMotorAdjustNeeded(position, weight, &step);
+	if(adjustMotor){
+		(void)Rte_Call_rpInclineMotor_Move(step);
+	}
 	
 }
 
@@ -136,12 +141,16 @@ void SeatManager_AutoSlide (void)
 	StepMotorStepType step;
 	SensorPositionType position;
 	SensorWeightType weight;
+	boolean adjustMotor;
 
 	/* Server Call Points */
-	status = Rte_Call_rpSlideMotor_Move(step);
 	status = Rte_Call_rpSlideSensor_GetPosition(&position);
 	status = Rte_Call_rpWeightSensor_GetWeight(&weight);
 	
+	adjustMotor = isMotorAdjustNeeded(position, weight, &step);
+	if(adjustMotor){
+		(void)Rte_Call_rpSlideMotor_Move(step);
+	}
 }
 
 
@@ -229,4 +238,3 @@ void SeatManager_SetSlide (void)
 	}
 	
 }
-

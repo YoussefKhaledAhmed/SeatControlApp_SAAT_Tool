@@ -4,7 +4,7 @@
  * \brief Rte Component Template for AUTOSAR SWC: HMI
  *
  * \author Sprints AUTOSAR Authoring Tool (SAAT) v1.0.2
- * Generated on 5/8/2023 08:54 AM
+ * Generated on 5/13/2023 11:42 AM
  *
  * For any inquiries: hassan.m.farahat@gmail.com
  *
@@ -52,6 +52,39 @@ void HMI_MainFunction (void)
 	status = Rte_Write_ppSeatCtrlBtns_HeightBtnState(HeightBtnState);
 	status = Rte_Write_ppSeatCtrlBtns_InclineBtnState(InclineBtnState);
 	status = Rte_Write_ppSeatCtrlBtns_SlideBtnState(SlideBtnState);
+	
+}
+
+
+/**
+ *
+ * Runnable HMI_SeatModeChanged
+ *
+ * Triggered By:
+ *  - DataReceivedEventImpl.DRE_rpSeatModeBtn_SeatModeBtn
+ *
+ */
+
+void HMI_SeatModeChanged (void)
+{
+	Std_ReturnType status;
+	SeatModeBtnType SeatModeBtn;
+	uint8 SeatCtrlMode = RTE_MODE_SeatCtrlMode_INIT;
+
+	/* Data Receive Points */
+	status = Rte_Read_rpSeatModeBtn_SeatModeBtn(&SeatModeBtn);
+	
+	/* Software Logic */
+	if(SeatModeBtn == SEAT_MODE_BTN_MANUAL){
+		SeatCtrlMode = RTE_MODE_SeatCtrlMode_INIT;
+	} else if(SeatModeBtn == SEAT_MODE_BTN_AUTO){
+		SeatCtrlMode = RTE_MODE_SeatCtrlMode_AUTO;
+	} else{
+		/* Keep INIT */
+	}
+	
+	/* Mode Switch Points */
+	status = Rte_Switch_ppSeatCtrlMode_SeatCtrlMode(SeatCtrlMode);
 	
 }
 
